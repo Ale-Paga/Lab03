@@ -92,6 +92,31 @@ public class Dictionary {
 	
 	public List<RichWord> spellCheckTextDichotomic(List<String> inputTextList){
 		List<RichWord> risultato= new ArrayList<>();
+		int indice= dizionario.size()/2;
+		int max=dizionario.size();
+		int min=0;
+		System.out.println("TEST 1");
+		
+		for(int i=0; i<inputTextList.size(); i++) {
+			System.out.println("TEST 2");
+			risultato.add(new RichWord(inputTextList.get(i), false));
+			while(min!=max) {				
+				if(inputTextList.get(i).compareTo(dizionario.get(indice))==0) {
+					risultato.get(i).setCorretta(true);
+					System.out.println("TEST 3");
+					break;
+				}else if(inputTextList.get(i).compareTo(dizionario.get(indice))>0){
+					min=indice;
+					indice=(min+max)/2;
+					System.out.println("TEST 4");
+				}else if(inputTextList.get(i).compareTo(dizionario.get(indice))<0) {
+					max=indice;
+					indice=(min+max)/2;
+					System.out.println("TEST 5");
+				}
+			}
+			
+		}
 		return risultato;
 		
 	}
