@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Dictionary {
 	
 	List<String> dizionario;
+	List<String> dizionario2;
 	
 	
 	
@@ -16,6 +18,8 @@ public class Dictionary {
 	public Dictionary() {
 		super();
 		this.dizionario = new ArrayList<>();
+		this.dizionario2 = new LinkedList<>();
+
 	}
 
 
@@ -30,6 +34,7 @@ public class Dictionary {
 				String word;
 				while ((word = br.readLine()) != null) {
 					this.dizionario.add(word);
+					this.dizionario2.add(word);
 				}
 				br.close();
 				} catch (IOException e){
@@ -42,6 +47,7 @@ public class Dictionary {
 				String word;
 				while ((word = br.readLine()) != null) {
 					this.dizionario.add(word);
+					this.dizionario2.add(word);
 				}
 				br.close();
 				} catch (IOException e){
@@ -63,6 +69,29 @@ public class Dictionary {
 			}
 		}
 		
+		return risultato;
+		
+	}
+	
+	public List<RichWord> spellCheckTextLinear(List<String> inputTextList){
+		List<RichWord> risultato= new ArrayList<>();
+		
+		for(int i=0; i<inputTextList.size(); i++) {
+			risultato.add(new RichWord(inputTextList.get(i), false));
+			for(int j=0; j<this.dizionario.size();j++) {
+				if(inputTextList.get(i).equals(this.dizionario.get(j))) {
+					risultato.get(i).setCorretta(true);
+					break;
+				}
+			}
+		}
+		
+		return risultato;
+		
+	}
+	
+	public List<RichWord> spellCheckTextDichotomic(List<String> inputTextList){
+		List<RichWord> risultato= new ArrayList<>();
 		return risultato;
 		
 	}

@@ -27,6 +27,9 @@ public class FXMLController {
 
     @FXML
     private ComboBox<String> boxLingua;
+    
+    @FXML
+    private ComboBox<String> boxMode;
 
     @FXML
     private TextArea txtTesto;
@@ -51,7 +54,7 @@ public class FXMLController {
 
     @FXML
     void handleSpellCheck(ActionEvent event) {
-    	this.startTime=System.currentTimeMillis();
+    	this.startTime=System.nanoTime();
     	String lingua = this.boxLingua.getValue();
     	this.dizionario.loadDictionary(lingua);
     	String frase = this.txtTesto.getText();
@@ -63,7 +66,15 @@ public class FXMLController {
     		fraseList.add(f);
     	}
     	
-    	List<RichWord> ris = this.dizionario.spellCheckText(fraseList);
+    	List<RichWord> ris = null; 
+    	String mode = this.boxMode.getValue();
+    	if(mode.equals("Classic")) {
+    		ris = this.dizionario.spellCheckText(fraseList);
+    	}else if(mode.equals("Linear")) {
+    		ris = this.dizionario.spellCheckTextLinear(fraseList);
+    	}else if(mode.equals("Dichotomic")) {
+    		ris = this.dizionario.spellCheckTextDichotomic(fraseList);
+    	}
     	
     	String risTxt="Le parole errate sono: \n";
     	int count=0;
@@ -73,11 +84,11 @@ public class FXMLController {
     			risTxt= risTxt+ris.get(i).getParola()+"\n";
     		}
     	}
-    	this.estimatedTime=(System.currentTimeMillis()-startTime);
+    	this.estimatedTime=(System.nanoTime()-startTime);
     	
     	this.txtNumErrori.setText("The text contains "+count+" errors");
     	
-    	this.txtTempo.setText("Spell check completed in "+this.estimatedTime/1000+"."+this.estimatedTime%1000+" seconds");
+    	this.txtTempo.setText("Spell check completed in "+this.estimatedTime/1000000000+"."+this.estimatedTime%1000000000+" seconds");
     	this.txtErrori.setText(risTxt);
     	
     }
@@ -85,6 +96,7 @@ public class FXMLController {
     public void setModel(Dictionary m) {
     	this.dizionario = m ;
     	this.boxLingua.getItems().addAll("English","Italiano");
+    	this.boxMode.getItems().addAll("Classic","Linear","Dichotomic");
     	
     }
 

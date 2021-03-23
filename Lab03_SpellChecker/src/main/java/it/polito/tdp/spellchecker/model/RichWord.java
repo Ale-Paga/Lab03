@@ -22,5 +22,10 @@ public class RichWord {
 		return corretta;
 	}
 
+	public void setCorretta(boolean corretta) {
+		this.corretta = corretta;
+	}
 
+
+	
 }
